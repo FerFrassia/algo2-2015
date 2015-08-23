@@ -1,6 +1,0 @@
-\select@language {spanish}
-\contentsline {section}{\numberline {1}Aclaraciones}{3}
-\contentsline {section}{\numberline {2}Renombres}{3}
-\contentsline {section}{\numberline {3}\textsc {Operaciones Auxiliares}}{3}
-\contentsline {section}{\numberline {4}TAD \textsc {Red}}{4}
-\contentsline {section}{\numberline {5}TAD \textsc {DCNet}}{7}

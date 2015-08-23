@@ -1,0 +1,168 @@
+\documentclass[10pt, a4paper]{article}
+% especifico márgenes manualmente
+\usepackage[paper=a4paper, left=1.5cm, right=1.5cm, bottom=1.5cm, top=3.5cm]{geometry}
+% codificación ISO-8859-1
+\usepackage[latin1]{inputenc}
+% separación silábica en castellano
+\usepackage[spanish]{babel}
+% paquetes y caratula de algo2
+\usepackage{aed2-symb,aed2-itef,aed2-tad,caratula}
+
+\begin{document}
+
+% Estos comandos deben ir antes del \maketitle
+\materia{Algoritmos y Estructuras de Datos II} % obligatorio
+\submateria{Segundo Cuatrimestre de 2015} % opcional
+\titulo{Trabajo Práctico 1} % obligatorio
+\subtitulo{Especificación Alta Seguridad nos cuida} % opcional
+\grupo{Grupo 24} % opcional 
+
+
+\integrante{Fernando Frassia}{340/13}{ferfrassia@gmail.com} % obligatorio 
+\integrante{Sebastian Matias Giambastiani}{916/12}{sebastian.giambastiani@hotmail.com}
+\integrante{}{}{}
+\integrante{}{}{}
+
+
+
+\maketitle
+
+% compilar 2 veces para actualizar las referencias
+\tableofcontents
+
+\pagebreak
+\newpage
+
+
+ 
+
+%RenombresBegin
+\section{Renombres}
+
+\tadNombre{ID} es \tadNombre{Nat}
+
+\tadNombre{Chabon} es \tadNombre{Nat}
+
+\tadNombre{(0,1,2)} es \tadNombre{Poli, Estudiante, Hippie}
+
+%\tadNombre{Paquete} es \tadNombre{Tupla(Nat, Nat), el $\pi$$_1$ de la tupla es la prioridad del paquete, y el $\pi$$_2$ es su identificador personal}
+
+%\tadNombre{} es \tadNombre{}
+%RenombresEnd
+
+%TADSBegin
+
+%SecuExtendidoBegin
+
+
+
+%\end{tad}
+%SecuExtendidoEnd
+\newpage
+
+%RedBegin
+\section{TAD \tadNombre{Grilla}}
+
+\begin{tad}{\tadNombre{Grilla}}
+\tadIgualdadObservacional{g1}{g2}{Grilla}{}
+\tadGeneros{Grilla}
+
+
+\tadExporta{Grila, generadores, observadores}
+%\tadUsa{\tadNombre{Bool}, \tadNombre{Conj($\alpha$)}, \tadNombre{Compu}, \tadNombre{Interfaz}, \tadNombre{Secu($\alpha$)}}
+
+\tadObservadores
+\tadAlinearFunciones{libre?}{Nat/i, Nat/j, Grilla/g}
+\tadOperacion{libre?}{Nat/i, Nat/j, Grilla/g}{Bool}{enRango(i,j,g)}
+\tadOperacion{tam}{Grilla}{(Nat, Nat)}{}
+
+
+\tadGeneradores
+\tadAlinearFunciones{obstaculizar}{Nat/i, Nat/j, Grilla/g}
+\tadOperacion{crear}{Nat/l, Nat/a}{Grilla}{}
+\tadOperacion{obstaculizar}{Nat/i, Nat/j, Grilla/g}{Grilla}{enRango(i,j,g) $\yluego$ libre?(i,j,g)}
+
+\tadOtrasOperaciones
+\tadAlinearFunciones{posLibresAux}{Nat/i, Nat/j, Nat/l, Nat/a, Grilla/g}
+
+\tadOperacion{enRango}{Nat/i, Nat/j, Grilla/g}{Bool}{}
+
+\tadOperacion{posLibres}{Grilla}{Conj(Nat, Nat)}{}
+
+\tadOperacion{posLibresAux}{Nat/i, Nat/j, Nat/l, Nat/a, Grilla/g}{Conj(Nat, Nat)}{}
+  
+
+\tadAxiomas[]
+\tadAlinearAxiomas{libre?(i, j, obstaculizar(k, l, g))}
+
+\tadAxioma{libre?(i, j, crear(l, a, cid))}{True}
+
+\tadAxioma{libre?(i, j, obstaculizar(k, l, g))}{\IF i = k $\wedge$ j = l THEN False ELSE libre?(i, j, g) FI}
+
+\tadAxioma{tam(crear(l, a, cid))}{(l, a)}
+
+\tadAxioma{tam(obstaculizar(i, j, g))}{tam(g)}
+
+\tadAxioma{enRango(i, j, g)}{i $\leq$ tam(g).$\pi$$_1$ $\wedge$ j $\leq$ tam(g).$\pi$$_2$}
+
+\tadAxioma{posLibres(g)}{posLibresAux(1, 1, tam(g).$\pi$$_1$, tam(g).$\pi$$_2$, g)}
+
+\tadAxioma{posLibresAux(i, j, l, a, g)}{\IF j $\leq$ a THEN 
+								{\IF i $\leq$ l THEN 
+									{\IF libre?(i, j, g) THEN 
+										Ag((i, j), posLibresAux(i+1, j, l, a, g)) 
+									ELSE 
+										posLibresAux(i+1, j, l, a, g) FI} 
+								ELSE 
+									posLibresAux(1, j+1, l, a, g) FI} 
+							ELSE 
+								$\emptyset$ FI}
+
+
+
+\end{tad}
+%RedEnd
+
+\newpage
+
+%DCNetBegin
+\section{TAD \tadNombre{Sistema}}
+
+\begin{tad}{\tadNombre{Sistema}}
+\tadIgualdadObservacional{s1}{s2}{Sistema}{}
+\tadGeneros{Sistema}
+
+\tadExporta{Sistema, generadores, observadores}
+%\tadUsa{\tadNombre{Red}, \tadNombre{Secu($\alpha$)}, \tadNombre{Conjunto($\alpha$)}, \tadNombre{Nat}, \tadNombre{Bool}, \tadNombre{Paquete}, \tadNombre{Tupla}}
+
+\tadObservadores
+\tadAlinearFunciones{infraccionesDe}{Chabon/c, Sistema/s}
+\tadOperacion{laGrilla}{Sistema}{Grilla}{}
+\tadOperacion{gente}{Sistema}{Conj(Chabon)}{}
+\tadOperacion{rol}{Chabon/c, Sistema/s}{0, 1, 2}{c $\in$ gente(s)}
+\tadOperacion{pos}{Chabon/c, Sistema/s}{(Nat, Nat)}{c $\in$ gente(s)}
+\tadOperacion{infraccionesDe}{Chabon/c, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = poli}
+\tadOperacion{capturasDe}{Chabon/c, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = poli}
+
+
+\tadGeneradores
+\tadAlinearFunciones{moverNoEst}{Chabon/c, Bool/b, Nat/i, Nat/j, Sistema/s}
+\tadOperacion{rastrillar}{Conj(ID), Grilla}{Sistema}{}
+\tadOperacion{entraNoPoli}{Chabon/c, Bool/b, Nat/i, Nat/j, Sistema/s}{Sistema}{c $\notin$ gente(s) $\wedge$ (i, j) $\in$ posLibresSist(s) $\wedge$ (j = 1 $\vee$ j = tam(laGrilla(s)).$\pi$$_2$)}
+\tadOperacion{moverEst}{Chabon/c, Nat/x, Nat/y, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante $\wedge$ \tadNombre{va a una pos libre}}
+\tadOperacion{moverNoEst}{Chabon/c, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) $\neq$ estudiante $\wedge$ (rol(c, s) = poli $\impluego$ sePuedeMover?(c, s))}
+
+
+\tadOtrasOperaciones
+\tadAlinearFunciones{sePuedeMover?}{Chabon/c, Sistema/s}
+\tadOperacion{PosLibresSist}{Sistema}{Conj(Nat, Nat)}{}
+\tadOperacion{cantHippies}{Sistema}{Nat}{}
+\tadOperacion{cantEstudiantes}{Sistema}{Nat}{}
+\tadOperacion{masVigilante}{Sistema}{Chabon}{}
+\tadOperacion{sePuedeMover?}{Chabon/c, Sistema/s}{Bool}{c $\in$ gente(s) $\yluego$ rol(c, s) = poli}
+
+
+\end{tad}
+
+
+\end{document}
