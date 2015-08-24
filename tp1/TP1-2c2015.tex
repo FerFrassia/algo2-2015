@@ -139,27 +139,165 @@
 \tadAlinearFunciones{infraccionesDe}{Chabon/c, Sistema/s}
 \tadOperacion{laGrilla}{Sistema}{Grilla}{}
 \tadOperacion{gente}{Sistema}{Conj(Chabon)}{}
-\tadOperacion{rol}{Chabon/c, Sistema/s}{0, 1, 2}{c $\in$ gente(s)}
+\tadOperacion{rol}{Chabon/c, Sistema/s}{String}{c $\in$ gente(s)}
 \tadOperacion{pos}{Chabon/c, Sistema/s}{(Nat, Nat)}{c $\in$ gente(s)}
-\tadOperacion{infraccionesDe}{Chabon/c, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = poli}
-\tadOperacion{capturasDe}{Chabon/c, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = poli}
+\tadOperacion{infraccionesDe}{Chabon/c, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = policia}
+\tadOperacion{capturasDe}{Chabon/c, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = policia}
 
 
 \tadGeneradores
 \tadAlinearFunciones{moverNoEst}{Chabon/c, Bool/b, Nat/i, Nat/j, Sistema/s}
-\tadOperacion{rastrillar}{Conj(ID), Grilla}{Sistema}{}
-\tadOperacion{entraNoPoli}{Chabon/c, Bool/b, Nat/i, Nat/j, Sistema/s}{Sistema}{c $\notin$ gente(s) $\wedge$ (i, j) $\in$ posLibresSist(s) $\wedge$ (j = 1 $\vee$ j = tam(laGrilla(s)).$\pi$$_2$)}
-\tadOperacion{moverEst}{Chabon/c, Nat/x, Nat/y, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante $\wedge$ \tadNombre{va a una pos libre}}
-\tadOperacion{moverNoEst}{Chabon/c, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) $\neq$ estudiante $\wedge$ (rol(c, s) = poli $\impluego$ sePuedeMover?(c, s))}
+\tadOperacion{rastrillar}{Conj(Chabon)/cc, Grilla/g}{Sistema}{$\#$cc $\leq$ $\#$posLibres(g)}
+\tadOperacion{entraNoPoli}{Chabon/c, String/r, Nat/i, Nat/j, Sistema/s}{Sistema}{c $\notin$ gente(s) $\wedge$ (i, j) $\in$ posLibresSist(s) $\wedge$ (r = estudiante $\vee$ r = hippie) $\wedge$ (j = 1 $\vee$ j = tam(laGrilla(s)).$\pi$$_2$)}
+\tadOperacion{moverEst}{Chabon/c, Nat/i, Nat/j, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante $\wedge$ \tadNombre{va a una pos libre}}
+\tadOperacion{moverNoEst}{Chabon/c, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) $\neq$ estudiante $\wedge$ (rol(c, s) = policia $\impluego$ sePuedeMover?(c, s))}
 
 
 \tadOtrasOperaciones
-\tadAlinearFunciones{sePuedeMover?}{Chabon/c, Sistema/s}
-\tadOperacion{PosLibresSist}{Sistema}{Conj(Nat, Nat)}{}
+\tadAlinearFunciones{acorraladoPorEstudiantes?}{Chabon/c, Conj(Nat, Nat)/ca, Conj(Nat, Nat)/ch, Nat, Sistema/s}
+\tadOperacion{posLibresSist}{Sistema}{Conj(Nat, Nat)}{}
 \tadOperacion{cantHippies}{Sistema}{Nat}{}
 \tadOperacion{cantEstudiantes}{Sistema}{Nat}{}
 \tadOperacion{masVigilante}{Sistema}{Chabon}{}
-\tadOperacion{sePuedeMover?}{Chabon/c, Sistema/s}{Bool}{c $\in$ gente(s) $\yluego$ rol(c, s) = poli}
+\tadOperacion{sePuedeMover?}{Chabon/c, Sistema/s}{Bool}{c $\in$ gente(s) $\yluego$ rol(c, s) = policia}
+\tadOperacion{distancia}{Chabon/c1, Chabon/c2, Sistema/s}{Nat}{$\{$$c_1$, $c_2$$\}$ $\subseteq$ gente(s)}
+\tadOperacion{distanciaAux}{Nat/i_1, Nat/j1, Nat/i2, Nat/j2, Sistema/s}{Nat}{enRango(i1, j1, s) $\wedge$ enRango(i2, j2, s)}
+\tadOperacion{acorraladoPorHippies?}{Chabon/c, Sistema/s}{Bool}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante}
+\tadOperacion{acorraladoPorHippiesAux?}{Chabon/c, Conj(Nat, Nat)/ca, Conj(Nat, Nat)/ch, Nat, Sistema/s}{Nat}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante $\wedge$ 
+($\forall$ p $\in$ ca $\cup$ ch) enRango(p.$\pi$$_1$, p.$\pi$$_2$, s)}
+\tadOperacion{acorraladoPorEstudiantes?}{Chabon/c, Sistema/s}{Bool}{c $\in$ gente(s) $\yluego$ rol(c, s) = hippie}
+\tadOperacion{posDeHippies}{Sistema}{Conj(Nat, Nat)}{}
+\tadOperacion{posDeHippiesAux}{Conj(Chabones)/cc, Sistema/s}{Conj(Nat, Nat)}{cc $\subseteq$ gente(s)}
+
+\tadAxiomas[]
+\tadAlinearAxiomas{acorraladoPorEstudiantes?(c, s)}
+
+\tadAxioma{laGrilla(rastrillar(cc, g))}{g}
+\tadAxioma{laGrilla(entraNoPoli(c, r, i, j, s))}{laGrilla(s)}
+\tadAxioma{laGrilla(moverEst(c, i, j, s))}{laGrilla(s)}
+\tadAxioma{laGrilla(moverNoEst(c, s))}{laGrilla(s)}
+
+\tadAxioma{gente(rastrillar(cc, g))}{cc}
+\tadAxioma{gente(entraNoPoli(c, b, i, j, s))}{c $\cup$ gente(s)}
+\tadAxioma{gente(moverEst(c, i, j, s))}{\IF i = 0 $\vee$ i = tam(laGrilla(s)).$\pi$$_2$ + 1 THEN gente(s) - $\{$c$\}$ ELSE gente(s) FI}
+\tadAxioma{gente(moverNoEst(c, s))}{gente(s)}
+
+\tadAxioma{rol(c, rastrillar(cc, g))}{policia}
+\tadAxioma{rol($c_1$, entraNoPoli($c_2$, r, i, j, s))}{\IF $c_1$ $\neq$ $c_2$ THEN rol($c_1$, s) ELSE r FI}
+\tadAxioma{rol($c_1$, moverEst($c_2$, i, j, s))}{\IF rol($c_1$, s) = estudiante THEN
+										{\IF acorraladoPorHippies?($c_1$, mover(Est($c_2$, i, j, s))) THEN 
+											hippie 
+										ELSE
+											rol($c_1$, s) FI} 
+									ELSE
+										{\IF rol($c_1$, s) = hippie THEN
+											{\IF acorraladoPorEstudiantes?($c_1$, moverEst($c_2$, i, j, s)) THEN
+												estudiante
+											ELSE
+												rol($c_1$, s) FI}
+										ELSE
+											rol($c_1$, s) FI} 
+									FI}
+\tadAxioma{rol($c_1, $moverNoEst($c_2$, s))}{HAY QUE CONSULTAR}
+
+\tadAxioma{pos(c, rastrillar(conj, g))} {
+	dameUno(posLibres(g))
+}
+
+\tadAxioma{pos(c, entraNoPoli(ch, r, i, j, s))} {
+	\IF c = ch THEN
+		(i, j)
+	ELSE
+		pos(c, s)
+	FI
+}
+
+\tadAxioma{pos(c, moverEst(ch, x, i, s))} {
+	\IF c = ch THEN
+		(x, i)
+	ELSE
+		pos(c, s)
+	FI
+}
+
+\tadAxioma{pos(c, moverNoEst(ch, s))} {
+	\IF c = ch THEN
+	{
+		dameUno(targetsMasCercanos(c, targets(rol(c, s), gente(s), s), {}, s))
+	}
+	ELSE
+		pos(c, s)
+	FI
+}
+
+\tadAxioma{targets(r, g, s)} {
+	\IF $\emptyset$?(g) THEN
+		$\emptyset$	
+	ELSE
+	{
+		\IF (r = hippie $\wedge$ rol(dameUno(g), s) = estudiante) $\vee$ (r = poli $\wedge$ rol(dameUno(g), s) = hippie) THEN
+			{dameUno(g)} $\cup$ targets(r, sinUno(g), s)
+		ELSE
+			targets(p, r, sinUno(g), s)
+		FI}
+	FI
+}
+
+\tadAxioma{targetsMasCercanos(c, t, tc, s)} {
+	\IF $\emptyset$?(t) THEN
+		tc
+	ELSE
+	{
+		\IF $\emptyset$?(tc) THEN
+			targetsMasCercanos(c, sinUno(t), dameUno(t) $\cup$ tc, s)
+		ELSE
+		{
+			\IF distancia(c, dameUno(t), s) < distancia(c, dameUno(tc), s) THEN
+				targetsMasCercanos(c, sinUno(t), {dameUno(t)}, s)
+			ELSE
+			{
+				\IF distancia(c, dameUno(t), s) = distancia(c, dameUno(tc), s) THEN
+					targetsMasCercanos(c, sinUno(t), tc $\cup$ dameUno(t), s)
+				ELSE
+				FI
+			}
+			FI
+		}
+		FI
+	}
+	FI
+}
+
+\tadAxioma{distancia(c1, c2, s)}{distanciaAux(pos($c_1$).$\pi$$_1$, pos($c_1$).$\pi$$_2$, pos($c_2$).$\pi$$_1$, pos($c_2$).$\pi$$_2$, s)}	
+\tadAxioma{distanciaAux($i_1$, $j_1$, $i_2$, $j_2$, s)}{\IF $i_1$ $\geq$ $i_2$ THEN 
+											{\IF $j_1$ $\geq$ $j_2$ THEN
+												$i_1$ - $i_2$ + $j_1$ - $j_2$ 
+											ELSE
+												distancia($i_1$, $j_2$, $i_2$, $j_1$)
+											FI}
+										ELSE
+											distancia($i_2$, $j_1$, $i_1$, $j_2$)
+										FI}
+								
+	
+\tadAxioma{acorraladoPorHippies?(c, s)}{acorraladoPorAux?(c, adyacentes(c, s), posDeHippies(s), 0, s) $\geq$ 2}
+\tadAxioma{acorraladoAux?(c, ca, ch, n, s)}{$\#$ ca INTERSECCION ch}
+
+\tadAxioma{acorraladoPorEstudiantes?(c, s)}{acorraladoAux?(c, adyacentes(c, s), posDeEstudiantes(s), 0, s) = 4}
+
+
+\tadAxioma{posDeHippies(s)}{posDeHippiesAux(gente(s), s)}
+\tadAxioma{posDeHippiesAux(cc, s)}{\IF $\emptyset$?(cc) THEN
+								$\emptyset$
+							ELSE 
+								{\IF rol(dameUno(cc), s) = hippie THEN
+									Ag(pos(dameUno(cc), s), posDeHippiesAux(sinUno(cc), s))
+								ELSE
+									posDeHippiesAux(sinUno(cc), s) 
+								FI}
+							FI}
+
+
 
 
 \end{tad}

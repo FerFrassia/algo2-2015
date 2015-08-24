@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.3.28)  22 AUG 2015 22:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.3.28)  24 AUG 2015 01:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -311,11 +311,66 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
 
 [4]
-Overfull \hbox (2.5278pt too wide) in paragraph at lines 160--160
-[]\OT1/cmr/m/n/10 cantEstudiantes 
+Overfull \hbox (84.43033pt too wide) in paragraph at lines 158--158
+[]| [] 
  []
 
-[5] (./TP1-2c2015.aux
+
+Overfull \hbox (33.31909pt too wide) in paragraph at lines 159--159
+[]| [] 
+ []
+
+
+Overfull \hbox (33.31909pt too wide) in paragraph at lines 160--160
+[]| [] 
+ []
+
+
+Overfull \hbox (51.09692pt too wide) in paragraph at lines 161--161
+[]| [] 
+ []
+
+
+Overfull \hbox (37.06912pt too wide) in paragraph at lines 162--162
+[]| [] 
+ []
+
+
+Overfull \hbox (33.31909pt too wide) in paragraph at lines 163--163
+[]| [] 
+ []
+
+
+Overfull \hbox (33.31909pt too wide) in paragraph at lines 164--164
+[]| [] 
+ []
+
+
+Overfull \hbox (37.06912pt too wide) in paragraph at lines 165--165
+[]| [] 
+ []
+
+
+Overfull \hbox (33.31909pt too wide) in paragraph at lines 167--167
+[]| [] 
+ []
+
+
+Overfull \hbox (37.06912pt too wide) in paragraph at lines 168--168
+[]| [] 
+ []
+
+
+Overfull \hbox (84.43033pt too wide) in paragraph at lines 169--169
+[]| [] 
+ []
+
+
+Overfull \hbox (84.43033pt too wide) in paragraph at lines 170--170
+[]| [] 
+ []
+
+[5] [6] [7] (./TP1-2c2015.aux
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 )
@@ -324,27 +379,28 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 3111 strings out of 493117
- 40138 string characters out of 6135433
- 119801 words of memory out of 5000000
- 6537 multiletter control sequences out of 15000+600000
+ 3115 strings out of 493117
+ 40189 string characters out of 6135433
+ 127801 words of memory out of 5000000
+ 6541 multiletter control sequences out of 15000+600000
  8227 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,20n,47p,231b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,20n,57p,277b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
-/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on TP1-2c2015.pdf (5 pages, 126243 bytes).
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loc
+al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on TP1-2c2015.pdf (7 pages, 139018 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
+ 72 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
