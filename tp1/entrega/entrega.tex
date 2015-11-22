@@ -16,7 +16,7 @@
 \submateria{Segundo Cuatrimestre de 2015} % opcional
 \titulo{Trabajo Pr\'actico 1} % obligatorio
 \subtitulo{Especificaci\'on Alta Seguridad nos cuida} % opcional
-\grupo{Grupo 24} % opcional 
+\grupo{Grupo 18} % opcional 
 
 
 \integrante{Fernando Frassia}{340/13}{ferfrassia@gmail.com} % obligatorio 
@@ -26,7 +26,7 @@
 
 
 
-%\maketitle
+\maketitle
 
 % compilar 2 veces para actualizar las referencias
 \tableofcontents
@@ -42,7 +42,7 @@ Tomamos como decisiones de especificaci\'on lo siguiente:
     \item{$\bullet$ un estudiante se convierte en hippie $\Leftrightarrow$ lo rodean al menos 2 hippies (no importa su capacidad de moverse).}
     \item{$\bullet$ la grilla, de tamanio n x m, va de 1 a n y de 1 a m.}
 \end{description}
-Tambi\'en decidimos tomar a los Estudiantes, Hippies y Polic\'ias como \tadNombre{Nat}, reconocemos que se puede sobreespecificar de esta forma, porque ser\'ia m\'as prolijo separar a los Estudiantes y Hippies por un lado y a los Polic\'ias por otro, pero consultamos y nos dijeron que se admit\'ia este tipo de diseNIOo. \\
+Tambi\'en decidimos tomar a los Estudiantes, Hippies y Polic\'ias como \tadNombre{Nat}, reconocemos que se puede sobreespecificar de esta forma, porque ser\'ia m\'as prolijo separar a los Estudiantes y Hippies por un lado y a los Polic\'ias por otro, pero consultamos y nos dijeron que se admit\'ia este tipo de diseño. Lo mismo sucede con Rol como \tadNombre{String} en lugar de un tipo enumerado.\\
 
 Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, donde la componente $\pi_1$ es x, y la componente $\pi_2$ es y.
 \newpage
@@ -78,11 +78,11 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 \section{TAD \tadNombre{Grilla}}
 
 \begin{tad}{\tadNombre{Grilla}}
-\tadIgualdadObservacional{g1}{g2}{Grilla}{tam($g_1$) $\igobs$ tam($g_2$) $\wedge$ ($\forall$ cor: Coordenada) enRango(cor, $g_1$) $\impluego$ libre?(cor, $g_1$) $\igobs$ libre?(cor, $g_2$)}
+\tadIgualdadObservacional{g1}{g2}{Grilla}{tam($g_1$) $\igobs$ tam($g_2$) $\yluego$ ($\forall$ cor: Coordenada) enRango(cor, $g_1$) $\impluego$ libre?(cor, $g_1$) $\igobs$ libre?(cor, $g_2$)}
 \tadGeneros{Grilla}
 
 
-\tadExporta{Grila, generadores, observadores}
+\tadExporta{Grila, generadores, observadores, otras operaciones}
 %\tadUsa{\tadNombre{Bool}, \tadNombre{Conj($\alpha$)}, \tadNombre{Compu}, \tadNombre{Interfaz}, \tadNombre{Secu($\alpha$)}}
 
 \tadObservadores
@@ -113,7 +113,7 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 
   
 
-\tadAxiomas[]
+\tadAxiomas[\paratodo{Coordenada}{cor, cor1, cor2}, \paratodo{Grilla}{g}]
 \tadAlinearAxiomas{libre?($cor_1$ obstaculizar($cor_2$, g))}
 
 \tadAxioma{libre?($cor_1$, crear($cor_2$))}{True}
@@ -132,7 +132,7 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 							            	{\IF $cor_1$.x $\leq$ $cor_2$.x THEN 
 								            	Ag($cor_1$, posTotalesAux(($cor_1$.x+1, $cor_1$.y), $cor_2$, g)) 
 							            	ELSE 
-								            	posLibresAux((1, $cor_1$.y+1), $cor_2$, g) FI} 
+								            	posTotalesAux((1, $cor_1$.y+1), $cor_2$, g) FI} 
 						            	ELSE 
 							            	$\emptyset$ FI}
 
@@ -188,9 +188,9 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 \tadGeneradores
 \tadAlinearFunciones{moverNoEst}{Chabon/c, Bool/b, Nat/i, Nat/j, Sistema/s}
 \tadOperacion{rastrillar}{Conj(Chabon)/cc, Grilla/g}{Sistema}{$\#$cc $\leq$ $\#$posLibres(g)}
-\tadOperacion{entraNoPoli}{Chabon/c, Rol/r, Coordenada/cor, Sistema/s}{Sistema}{c $\notin$ gente(s) $\wedge$ cor $\in$ posLibresSist(s) $\wedge$ r $\in$ \{estudiante, hippie\} $\wedge$ (j = 1 $\vee$ j = tam(laGrilla(s)).$y$)}
-\tadOperacion{moverEst}{Chabon/c, Coordenada/cor, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante $\wedge$ cor $\in$ adyacentesLibres(c, s)}
-\tadOperacion{moverNoEst}{Chabon/c, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) $\neq$ estudiante $\wedge$ (rol(c, s) = polic\'ia $\impluego$ sePuedeMover?(c, s))}
+\tadOperacion{entraNoPoli}{Chabon/c, Rol/r, Coordenada/cor, Sistema/s}{Sistema}{c $\notin$ gente(s) $\wedge$ cor $\in$ posLibresSist(s) $\wedge$ r $\in$ \{estudiante, hippie\} $\wedge$ (cor.$y$ = 1 $\vee$ cor.$y$ = tam(laGrilla(s)).$y$)}
+\tadOperacion{moverEst}{Chabon/c, Coordenada/cor, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) = estudiante $\wedge$ cor $\in$ adyacentesLibres(pos(c, s), s)}
+\tadOperacion{moverNoEst}{Chabon/c, Sistema/s}{Sistema}{c $\in$ gente(s) $\yluego$ rol(c, s) $\neq$ estudiante $\wedge$ \#adyacentesLibres(pos(c), s) $>$ 0 $\wedge$ (rol(c, s) = polic\'ia $\impluego$ infraccionesDe(c, s) $\leq$ 3)}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %			INICIO				   %
@@ -209,41 +209,43 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 
 \tadOperacion{cantEstudiantes}{Sistema}{Nat}{}
 
-\tadOperacion{elMasVigilante}{Sistema}{Chabon}{}
+\tadOperacion{elMasVigilante}{Sistema}{Chabon}{$\neg$$\emptyset$?losPolic\'ias(s)}
 
-\tadOperacion{adyacentesConGente}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)} 
+\tadOperacion{adyacentesConGente}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{adyacentesConHippies}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)} 
+\tadOperacion{adyacentesConHippies}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{adyacentesLibres}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)} 
+\tadOperacion{adyacentesLibres}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{adyacentesOcupadas}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)} 
+\tadOperacion{adyacentesOcupadas}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{adyacentesTotales}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)} 
+\tadOperacion{adyacentesTotales}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{adyacentesEstudiantes}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)}
+\tadOperacion{adyacentesEstudiantes}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))}
 
-\tadOperacion{adyacentesHippies}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)}
+\tadOperacion{adyacentesHippies}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))}
 
-\tadOperacion{adyacentespolic\'ias}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, s)}
+\tadOperacion{adyacentespolic\'ias}{Coordenada/cor, Sistema/s}{Conj(Coordenada)}{enRango(cor, laGrilla(s))}
 
 \tadOperacion{cantEnemigosCerca}{Conj(Chabon)/cc, Rol/r, Sistema/s}{Nat}{cc $\subseteq$ gente(s) $\wedge$ r $\in$ \{estudiante, hippie, polic\'ia\}} 
 
 \tadOperacion{chabonesConRol}{Conj(Chabon)/cc, Rol/r, Sistema/s}{Conj(Chabon)}{cc $\subseteq$ gente(s) $\wedge$ r $\in$ \{estudiante, hippie, polic\'ia\}}
 
-\tadOperacion{chabonEnPosicion}{Coordenada/cor, Sistema/s}{Chabon}{enRango(cor, s) $\wedge$ cor $\in$ posOcupadasPorGente(s)} 
+\tadOperacion{chabonEnPosicion}{Coordenada/cor, Sistema/s}{Chabon}{enRango(cor, laGrilla(s)) $\wedge$ cor $\in$ posOcupadasPorGente(s)} 
 
-\tadOperacion{chabonesEnPosiciones}{Conj(Coordenada)/ccor, Sistema/s}{Conj(Chabon)}{($\forall$ cor $\in$ ccor) enRango(cor, s) $\wedge$ cor $\in$ posOcupadasPorGente(s)} 
+\tadOperacion{chabonesEnPosiciones}{Conj(Coordenada)/ccor, Sistema/s}{Conj(Chabon)}{($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s)) $\wedge$ cor $\in$ posOcupadasPorGente(s)} 
 
-\tadOperacion{corALaQueVa}{Chabon/c, Sistema/s}{Coordenada}{c $\in$ gente(s)}
+\tadOperacion{corALaQueVa}{Chabon/c, Sistema/s}{Coordenada}{c $\in$ gente(s) $\wedge$ \#adyacentesLibres(pos(c), s) $>$ 0}
 
-\tadOperacion{conjLosTargetsMasCercanos}{Chabon/c, Conj(Coordenada)/ccor, Nat/n, Sistema/s}{Conj(Coordenada)}{c $\in$ gente(s) $\wedge$ ($\forall$ cor $\in$ ccor) enRango(cor, s)}
+\tadOperacion{conjLosTargetsMasCercanos}{Chabon/c, Conj(Coordenada)/ccor, Nat/n, Sistema/s}{Conj(Coordenada)}{c $\in$ gente(s) $\wedge$ ($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s))}
 
-\tadOperacion{diccChabonRol}{Conj(Coordenada)/ccor, Sistema/s}{Diccionario(Coordenada, Rol)}{($\forall$ cor $\in$ ccor) enRango(cor, s)}
+\tadOperacion{dameMenorPlaca}{Conj(Chabon)/cc, Chabon}{Chabon}{$\neg$$\emptyset$?(cc)}
+
+\tadOperacion{diccChabonRol}{Conj(Coordenada)/ccor, Sistema/s}{Diccionario(Coordenada, Rol)}{($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s))}
 
 \tadOperacion{distancia}{Chabon/c1, Chabon/c2, Sistema/s}{Nat}{$\{$$c_1$, $c_2$$\}$ $\subseteq$ gente(s)} 
 
-\tadOperacion{distUnTargetMasCercano}{Chabon/c, Conj(Coordenada)/ccor, Nat/n, Sistema/s}{Nat}{c $\in$ gente(s) $\wedge$ ($\forall$ cor $\in$ ccor) enRango(cor, s)}
+\tadOperacion{distUnTargetMasCercano}{Chabon/c, Conj(Coordenada)/ccor, Nat/n, Sistema/s}{Nat}{c $\in$ gente(s) $\wedge$ ($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s))}
 
 \tadOperacion{loRodeanBien?}{Conj(Chabon)/cc, Nat/n, Rol/r, Sistema/s}{Bool}{cc $\subseteq$ gente(s) $\wedge$ r $\in$ \{estudiante, hippie, polic\'ia\}} 
 
@@ -253,24 +255,23 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 
 \tadOperacion{lospolic\'ias}{Sistema}{Conj(Chabon)}{} 
 
-\tadOperacion{posDeCaptura?}{Coordenada/cor, Sistema/s}{Bool}{enRango(cor, s)} 
+\tadOperacion{posDeCaptura?}{Coordenada/cor, Sistema/s}{Bool}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{posDeCapturas}{Conj(Coordenada)/ccor, Sistema/s}{Conj(Chabon)}{($\forall$ cor $\in$ ccor) enRango(cor, s)} 
+\tadOperacion{posDeCapturas}{Conj(Coordenada)/ccor, Sistema/s}{Conj(Chabon)}{($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s))} 
 
 \tadOperacion{posEstudiantes}{Sistema}{Conj(Coordenada)}{} 
 
 \tadOperacion{posHippies}{Sistema}{Conj(Coordenada)}{} 
 
-\tadOperacion{pospolic\'ias}{Sistema}{Conj(Coordenada)}{} 
+\tadOperacion{posPolic\'ias}{Sistema}{Conj(Coordenada)}{} 
 
-\tadOperacion{posQueSeConvierte?}{Coordenada/cor, Rol/r, Sistema/s}{Bool}{enRango(cor, s) $\wedge$ r $\in$ \{estudiante, hippie\}} 
+\tadOperacion{posQueSeConvierte?}{Coordenada/cor, Rol/r, Sistema/s}{Bool}{enRango(cor, laGrilla(s)) $\wedge$ r $\in$ \{estudiante, hippie\}} 
 
-\tadOperacion{posQueSeConvierten}{Conj(Coordenada)/ccor, Diccionario(Coordenada, Rol)/d, Sistema/s}{Conj(Coordenada)}{($\forall$ cor $\in$ ccor $\cup$ claves(d)) enRango(cor, s) $\yluego$ ($\forall$ cor $\in$ claves(d)) obtener(cor, d) $\in$ \{estudiante, hippie\}}
-\tadOperacion{sePuedeMover?}{Chabon/c, Sistema/s}{Bool}{c $\in$ gente(s) $\yluego$ rol(c, s) = polic\'ia} 
+\tadOperacion{posQueSeConvierten}{Conj(Coordenada)/ccor, Diccionario(Coordenada, Rol)/d, Sistema/s}{Conj(Coordenada)}{($\forall$ cor $\in$ ccor $\cup$ claves(d)) enRango(cor, laGrilla(s)) $\yluego$ ($\forall$ cor $\in$ claves(d)) obtener(cor, d) $\in$ \{estudiante, hippie\}}
 
-\tadOperacion{posInmovil?}{Coordenada/cor, Sistema/s}{Bool}{enRango(cor, s)} 
+\tadOperacion{posInmovil?}{Coordenada/cor, Sistema/s}{Bool}{enRango(cor, laGrilla(s))} 
 
-\tadOperacion{posInmoviles}{Conj(Coordenada)/ccor, Sistema/s}{Conj(Coordenada)}{($\forall$ cor $\in$ ccor) enRango(cor, s)}
+\tadOperacion{posInmoviles}{Conj(Coordenada)/ccor, Sistema/s}{Conj(Coordenada)}{($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s))}
 
 \tadOperacion{posLibresSist}{Sistema}{Conj(Coordenada)}{} 
 
@@ -280,15 +281,15 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 
 \tadOperacion{recordCapturas}{Sistema}{Nat}{} 
 
-\tadOperacion{elMasVigilanteAux}{Conj(Chabon)/cc, Nat/n, Chabon/c, Sistema/s}{Chabon}{Ag(c, cc) $\subseteq$ gente(s)}
+\tadOperacion{losMasVigilantes}{Conj(Chabon)/cc, Nat/n, Sistema/s}{Conj(Chabon)}{cc $\subseteq$ gente(s)}
 
-\tadOperacion{posInicialAux}{Chabon/c, Conj(Chabon)/cc, Conj(Coordenada)/ccor}{Coordenada}{Ag(c, cc) $\subseteq$ gente(s) $\wedge$ ($\forall$ cor $\in$ ccor) enRango(cor, s)}
+\tadOperacion{posInicialAux}{Chabon/c, Conj(Chabon)/cc, Conj(Coordenada)/ccor}{Coordenada}{Ag(c, cc) $\subseteq$ gente(s) $\wedge$ ($\forall$ cor $\in$ ccor) enRango(cor, laGrilla(s))}
 
 \tadOperacion{posOcupadasPorGenteAux}{Conj(Chabon)/cc, Sistema/s}{Conj(Coordenada)}{cc $\subseteq$ gente(s)} 
 
 \tadOperacion{recordCapturasAux}{Conj(Chabon)/cc, Nat/n, Sistema/s}{Nat}{cc $\subseteq$ gente(s)}
 
-\tadOperacion{chabonEnPosicionAux}{Conj(Chabon)/cc, Coordenada/cor, Sistema/s}{Chabon}{ cc $\subseteq$ gente(s) $\wedge$ enRango(cor, s) $\wedge$ cor $\in$ posOcupadasPorGente(s)}
+\tadOperacion{chabonEnPosicionAux}{Conj(Chabon)/cc, Coordenada/cor, Sistema/s}{Chabon}{ cc $\subseteq$ gente(s) $\wedge$ enRango(cor, laGrilla(s)) $\wedge$ cor $\in$ posOcupadasPorGente(s)}
 
 \tadOperacion{distanciaAux}{Coordenada/c1, Coordenada/c2}{Nat}{} 
 
@@ -300,7 +301,7 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 %								   %	
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\tadAxiomas[]
+\tadAxiomas[\paratodo{Conj(Chabon)}{cc}, \paratodo{Grilla}{g}, \paratodo{Rol}{r}, \paratodo{Chabon}{c, c1, c2}, \paratodo{Coordenada}{cor}, \paratodo{Sistema}{s}, \paratodo{Nat}{n}, \paratodo{Conj(Coordenada)}{ccor}, \paratodo{Diccionario(Coordenada, Rol)}{d}]
 \tadAlinearAxiomas{infraccionesDe($c_1$, entraNoPoli($c_2$, r, cor, s)}
 
 \tadAxioma{laGrilla(rastrillar(cc, g))}{g}
@@ -312,20 +313,22 @@ Por \'ultimo, las Coodenadas son un renombre de \tadNombre{Tupla(Nat, Nat)}, don
 \tadAxioma{gente(entraNoPoli(c, r, cor, s))}{\IF (r = hippie $\wedge$ posDeCaptura?(cor, s)) $\vee$ (r = estudiante $\wedge$ posDeConvertirse?(cor, estudiante, s) $\wedge$ posDeCaptura?(cor, s)) THEN
 									gente(s)
 								ELSE
-									Ag(c, gente(s) - chabonesEnPosiciones(posDeCapturas(posQueSeConvierten(adyacentesEstudiantes(cor, s), diccChabonRol(adyacentesEstudiantes(cor, s), s), entraNoPoli(c, r, cor, s)) $\cup$ adyacentesHippies(cor, s), entraNoPoli(c, r, cor, s)), entraNoPoli(c, r, cor, s)))
+									Ag(c, gente(s) -  chabonesEnPosiciones(posDeCapturas(posQueSeConvierten(adyacentesEstudiantes \\ 
+									(cor, s), diccChabonRol(adyacentesEstudiantes(cor, s), s), entraNoPoli(c, r, cor, s)) $\cup$ adyacentesHippies(cor, s), entraNoPoli(c, r, cor, s)), entraNoPoli(c, r, cor, s)))
 								FI}
 
 \tadAxioma{gente(moverEst(c, cor, s))}{\IF cor.y = 0 $\vee$ cor.y = tam(laGrilla(s)).$y$ + 1 $\vee$ posDeConvertirse?(cor, estudiante, s) $\wedge$ posDeCaptura?(cor, s) THEN 
 			                                        		gente(s) - $\{$c$\}$ 
 			                                        ELSE
-									gente(s) -  chabonesEnPosiciones(posDeCapturas(posQueSeConvierten(adyacentesEstudiantes(cor, s), diccChabonRol(adyacentesEstudiantes(cor, s), s), moverEst(c, cor, s)) $\cup$ adyacentesHippies(cor, s), moverEst(c, cor, s)), moverEst(c, cor, s))
+									gente(s) -  chabonesEnPosiciones(posDeCapturas(posQueSeConvierten(adyacentesEstudiantes \\
+									(cor, s), diccChabonRol(adyacentesEstudiantes(cor, s), s), moverEst(c, cor, s)) $\cup$ adyacentesHippies(cor, s), moverEst(c, cor, s)), moverEst(c, cor, s))
 			                                        FI}
 
 \tadAxioma{gente(moverNoEst(c, s))}{\IF rol(c, s) = hippie THEN
 			                                            {\IF posDeCaptura?(corALaQueVa(c, s), moverNoEst(c, s)) THEN
 			                                                gente(s) - c
 			                                            ELSE
-			                                                gente(s) - chabonesEnPosiciones(posDeCapturas(posQueSeConvierten(adyacentesEstudiantes(cor, s), diccChabonRol(adyacentesEstudiantes(cor, s), s), entraNoPoli(c, r, cor, s)) $\cup$ adyacentesHippies(cor, s), entraNoPoli(c, r, cor, s)), entraNoPoli(c, r, cor, s))
+			                                                gente(s) - chabonesEnPosiciones(posDeCapturas(posQueSeConvierten\\ (adyacentesEstudiantes(cor, s), diccChabonRol(adyacentesEstudiantes(cor, s), s), entraNoPoli(c, r, cor, s)) $\cup$ adyacentesHippies(cor, s), entraNoPoli(c, r, cor, s)), entraNoPoli(c, r, cor, s))
 			                                            FI}
 			                                    ELSE
 			                                         gente(s) - chabonesEnPosiciones(posDeCapturas(adyacentesHippies(pos(c, moverNoEst(c, s)), s), moverNoEst(c, s)), moverNoEst(c, s))
@@ -417,57 +420,13 @@ FI}
 
 \tadAxioma{infraccionesDe(c, rastrillar(cc,g))}{0}
 \tadAxioma{infraccionesDe($c_1$, entraNoPoli($c_2$, r, cor, s)}{\#posInmoviles(adyacentesEstudiantes(pos($c_1$, s), entraNoPoli($c_2$, r, cor, s)), entraNoPoli($c_2$, r, cor, s)) + infraccionesDe($c_1$, s)}
-\tadAxioma{infraccionesDe($c_1$, moverEst($c_2$, cor, s)}{\#posInmoviles(adyacentesEstudiantes(pos($c_1$, s), entraNoPoli($c_2$, r, cor, s)), entraNoPoli($c_2$, r, cor, s)) + infraccionesDe($c_1$, s)}
-\tadAxioma{infraccionesDe($c_1$, moverNoEst($c_2$, s)}{\#posInmoviles(adyacentesEstudiantes(pos($c_1$, moverNoEst($c_2$, s)), entraNoPoli($c_2$, r, cor, s)), entraNoPoli($c_2$, r, cor, s)) + infraccionesDe($c_1$, s)}
+\tadAxioma{infraccionesDe($c_1$, moverEst($c_2$, cor, s)}{\#posInmoviles(adyacentesEstudiantes(pos($c_1$, s), moverEst($c_2$, cor, s), moverEst($c_2$, cor, s)) + infraccionesDe($c_1$, s)}
+\tadAxioma{infraccionesDe($c_1$, moverNoEst($c_2$, s)}{\#posInmoviles(adyacentesEstudiantes(pos($c_1$, moverNoEst($c_2$, s)), moverNoEst($c_2$, s)), moverNoEst($c_2$, s)) + infraccionesDe($c_1$, s)}
 
 \tadAxioma{capturasDe(c, rastrillar(cc, g))}{0}
-\tadAxioma{capturasDe($c_1$, entraNoPoli($c_2$, r, cor, s))}{
-{\IF cor $\in$ adyacentesLibres(pos($c_1$, s), s) THEN
-    {\IF (r = hippie $\wedge$ $\neg$posQueSeConvierte?(cor, hippie, s)) $\vee$ (r = estudiante $\wedge$ posQueSeConvierte?(cor, estudiante, s)) THEN
-        1
-    ELSE
-        0
-    FI}
-ELSE
-    0
-FI} 
-\\ +     \#(adyacentesConHippies(pos($c_1$, s), s) 
-\\ - \#adyacentesConHippies(pos($c_1$, s),entraNoPoli($c_2$, r, cor, s)) 
-\\ + capturasDe($c_1$, s)
-}
-\tadAxioma{capturasDe($c_1$, moverEst($c_2$, cor, s))}{
-{\IF cor $\in$ adyacentesLibres(pos($c_1$, s), s) THEN
-    {\IF posQueSeConvierte?(cor, estudiante, s) THEN
-        1
-    ELSE
-        0
-    FI}
-ELSE
-    0
-FI} 
-\\ + \#(adyacentesConHippies(pos($c_1$, s),s) 
-\\ - \#adyacentesConHippies(pos($c_1$, s), moverEst($c_2$, cor, s)) 
-\\ + capturasDe($c_1$, s)
-} 
-% pregunto si esta en gente por si se transformo en hippie y volo. me acabo de dar cuenta que no modelamos que el flaco se pueda ir jajaja. lo de preguntar en rango es para saber si el estudiante se fue de la facultad. UPDATE = ahora sí toma en cuenta que se vaya, porque eso cae en las adyacentes libres de un estudiante(osea tiene lo del fuera del tablero también como libre), lo de en rango no hace falta porque eso está en adyacentes libres que es precondición de todos los mover. ah, y roguemos que no se dé cuenta de que no modelamos que se vaya el estudiante en adyacenteslibres y en todo lo que cambiaría si modelamos eso ahí.
-\tadAxioma{capturasDe($c_1$, moverNoEst($c_2$, s))}{
-\IF $c_1$ $\neq$ $c_2$ THEN
-    {\IF rol($c_2$, s) = hippie $\wedge$ 
-    \\ corALaQueVa($c_2$, s) $\in$ adyacentesLibres(pos($c_1$, s), s) $\yluego$ \\ $\neg$posQueSeConvierte?(corALaQueVa($c_2$, s), hippie, s) THEN
-        1 
-        \\ + \#(adyacentesConHippies(pos($c_1$, s),s) 
-        \\ - \#adyacentesConHippies(pos($c_1$, s), moverNoEst($c_2$, s)) 
-        \\ + capturasDe($c_1$, s)
-    ELSE
-        \\ \#(adyacentesConHippies(pos($c_1$, s),s) 
-        \\ - \#adyacentesConHippies(pos($c_1$, s), moverNoEst($c_2$, s)) 
-        \\ + capturasDe($c_1$, s)
-    FI}
-ELSE
-        \\ \#(adyacentesConHippies(corALaQueVa($c_1$, s), s) 
-        \\ - \#adyacentesConHippies(corALaQueVa($c_1$, s), moverNoEst($c_2$, s)) 
-        \\ + capturasDe($c_1$, s)
-FI}
+\tadAxioma{capturasDe($c_1$, entraNoPoli($c_2$, r, cor, s))}{\#posInmoviles(adyacentesHippies(pos($c_1$, s), entraNoPoli($c_2$, r, cor, s)), entraNoPoli($c_2$, r, cor, s)) + infraccionesDe($c_1$, s)}
+\tadAxioma{capturasDe($c_1$, moverEst($c_2$, cor, s))}{\#posInmoviles(adyacentesHippies(pos($c_1$, s), entraNoPoli($c_2$, r, cor, s)), entraNoPoli($c_2$, r, cor, s)) + infraccionesDe($c_1$, s)}
+\tadAxioma{capturasDe($c_1$, moverNoEst($c_2$, s))}{\#posInmoviles(adyacentesHippies(pos($c_1$, moverNoEst($c_2$, s)), entraNoPoli($c_2$, r, cor, s)), entraNoPoli($c_2$, r, cor, s)) + infraccionesDe($c_1$, s)}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %			INICIO				   %
@@ -482,7 +441,7 @@ FI}
 
 \tadAxioma{cantEstudiantes(s)}{\#posEstudiantes(s)}
 
-\tadAxioma{elMasVigilante(s)}{elMasVigilanteAux(lospolic\'ias(s), recordCapturas(s), dameUno(lospolic\'ias(s)), s)}
+\tadAxioma{elMasVigilante(s)}{dameMenorPlaca(losMasVigilantes(losPolic\'ias(s), recordCapturas(s), s), dameUno(losMasVigilantes(losPolic\'ias(s), recordCapturas(s), s)))}
 
 \tadAxioma{adyacentesConGente(cor, s)}{posOcupadasPorGente(s) $\cap$  adyacentesTotales(cor, s)}
 
@@ -494,11 +453,11 @@ FI}
       
 \tadAxioma{adyacentesTotales(cor, s)}{\{(cor.$x$+1, cor.$y$), \\(cor.$x$-1, cor.$y$), \\(cor.$x$, cor.$y$+1), \\(cor.$x$, cor.$y$-1)\} $\cap$ posTotales(laGrilla(s))}
 
-\tadAxioma{adyacentesEstudiantes(cor, s)}{adyacentesConGente(cor, s) $\cap$ posEstudiantes}
+\tadAxioma{adyacentesEstudiantes(cor, s)}{adyacentesConGente(cor, s) $\cap$ posEstudiantes(s)}
 
-\tadAxioma{adyacentesHippies(cor, s)}{adyacentesConGente(cor, s) $\cap$ posHippies}
+\tadAxioma{adyacentesHippies(cor, s)}{adyacentesConGente(cor, s) $\cap$ posHippies(s)}
 
-\tadAxioma{adyacentespolic\'ias(cor, s)}{adyacentesConGente(cor, s) $\cap$ pospolic\'ias}
+\tadAxioma{adyacentespolic\'ias(cor, s)}{adyacentesConGente(cor, s) $\cap$ pospolic\'ias(s)}
 
 \tadAxioma{cantEnemigosCerca(cc, r, s)}{\IF $\emptyset$?(cc) THEN 
 									0 
@@ -529,7 +488,7 @@ FI}
                                         FI}
                                         
 \tadAxioma{corALaQueVa(c, s)}{\IF (rol(c, s) = polic\'ia $\wedge$ \#posHippies(s) = 0) $\vee$ (rol(c, s) = hippie $\wedge$ \#posEstudiantes(s) = 0) THEN
-							{\IF pos(c, s).y $<$ tam(laGrilla(s)) / 2 THEN
+							{\IF pos(c, s).y $<$ tam(laGrilla(s)).y / 2 THEN
 								{\IF (pos(c, s).x, pos(c, s).y - 1) $\in$ posLibresSist(s) THEN
 									(pos(c, s).x, pos(c, s).y - 1)
 								ELSE 
@@ -550,15 +509,26 @@ FI}
 							FI}	
 						FI}                                        
                                         
-\tadAxioma{diccChabonRol(ccord, s)}{\IF $\emptyset$?(ccord) THEN
+\tadAxioma{dameMenorPlaca(cc, c)}{\IF $\emptyset$?(cc) THEN
+                                        c
+                                    ELSE
+                                        {\IF dameUno(cc) $<$ c THEN
+                                            dameMenorPlaca(sinUno(cc), dameUno(cc))
+                                        ELSE
+                                            dameMenorPlaca(sinUno(cc), c)
+                                        FI}
+                                    FI}
+                                        
+\tadAxioma{diccChabonRol(ccor, s)}{\IF $\emptyset$?(ccor) THEN
 								vacio
 							ELSE
-								definir(dameUno(ccord), rol(chabonEnPosicion(dameUno(ccord), s), s), diccChabonRol(sinUno(ccord, s)))
+								definir(dameUno(ccor), rol(chabonEnPosicion(dameUno\\ 
+								(ccor), s), s), diccChabonRol(sinUno(ccor, s)))
 							FI}                                        
                                         
 \tadAxioma{distancia(c1, c2, s)}{distanciaAux(pos($c_1$, s), pos($c_2$, s))}	
 
-\tadAxioma{loRodeanBien?(cc, n, r, s)}{\IF cantEnemigosCerca(cc, r, s) $\geq$ n THEN true ELSE false FI}   
+\tadAxioma{loRodeanBien?(cc, n, r, s)}{cantEnemigosCerca(cc, r, s) $\geq$ n}   
 
 \tadAxioma{losEstudiantes(s)}{chabonesConRol(gente(s), estudiante, s)}    
 
@@ -566,11 +536,7 @@ FI}
 
 \tadAxioma{lospolic\'ias(s)}{chabonesConRol(gente(s), polic\'ia, s)}         
 
-\tadAxioma{posDeCaptura?(cor, s)}{\IF posInmovil?(cor, s) $\wedge$ loRodeanBien?(chabonesEnPosiciones(adyacentesConGente(cor, s), s), 1, polic\'ia, s) THEN 
-                                true
-                            ELSE
-                                false 
-                            FI}         
+\tadAxioma{posDeCaptura?(cor, s)}{posInmovil?(cor, s) $\wedge$ \\ loRodeanBien?(chabonesEnPosiciones(adyacentesConGente(cor, s), s), 1, polic\'ia, s)}         
 
 \tadAxioma{posDeCapturas(ccor, s)}{\IF $\emptyset$?(ccor) THEN 
 				                                $\emptyset$ 
@@ -586,20 +552,15 @@ FI}
 
 \tadAxioma{posHippies(s)}{posOcupadasPorGenteAux(losHippies(s), s)}
 
-\tadAxioma{pospolic\'ias(s)}{posOcupadasPorGenteAux(lospolic\'ias(s), s)}
+\tadAxioma{pospolic\'ias(s)}{posOcupadasPorGenteAux(losPolic\'ias(s), s)}
 
 \tadAxioma{posQueSeConvierte?(cor, r, s)}{\IF r = hippie THEN
-					                                {\IF posInmovil?(cor, s) $\wedge$ \#adyacentesOcupadas(cor, s) = \#adyacentesConGente(cor, s) $\wedge$ loRodeanBien?(chabonesEnPosiciones(adyacentesConGente(cor, s), s), \#adyacentesConGente(cor, s), estudiante, s) THEN
-					                                		true
-					                                ELSE
-					                                    	false
-					                                FI}
+					                               posInmovil?(cor, s) $\wedge$ \#adyacentesOcupadas(cor, s) = \#adyacentesConGente(cor, s) $\wedge$ \\
+					                                loRodeanBien?(chabonesEnPosiciones(adyacentesConGente \\
+					                                (cor, s), s), \#adyacentesConGente(cor, s), estudiante, s)
 					                         ELSE 
-					                                {\IF loRodeanBien?(chabonesEnPosiciones(adyacentesConGente(cor, s), s), 2, hippie, s) THEN
-					                                    	true
-					                                ELSE
-					                                    	false
-					                                FI}
+					                                 loRodeanBien?(chabonesEnPosiciones(adyacentesConGente \\
+					                                (cor, s), s), 2, hippie, s)
 					                          FI}
                             
 \tadAxioma{posQueSeConvierten(ccor, d, s)}{\IF $\emptyset$?(ccor) THEN
@@ -611,8 +572,6 @@ FI}
 					                                        posQueSeConvierten(sinUno(ccor), d, s)
 					                                    FI}
 					                                FI}   
-                                
-\tadAxioma{sePuedeMover?(c,s)}{infraccionesDe(c,s) $\leq$ 3} 
 
 \tadAxioma{posInmovil?(cor, s)}{$\#$adyacentesLibres(cor, s) = 0}    
 
@@ -634,17 +593,13 @@ FI}
 
 \tadAxioma{recordCapturas(s)}{recordCapturasAux(lospolic\'ias(s), 0, s)}   
 
-\tadAxioma{elMasVigilanteAux(cc, n, c, s)}{\IF $\emptyset$?(cc) THEN
-									c
+\tadAxioma{losMasVigilantes(cc, n, s)}{\IF $\emptyset$?(cc) THEN
+									$\emptyset$
 								ELSE
-									{\IF capturasDe(cameUno(cc), s) = n THEN
-										{\IF dameUno(cc) $<$ c THEN
-											elMasVigilanteAux(sinUno(cc), n, dameUno(cc), s)
-										ELSE
-											elMasVigilanteAux(sinUno(cc), n, c, s)
-										FI}
+									{\IF capturasDe(dameUno(cc), s) = n THEN
+										Ag(dameUno(cc), losMasVigilantes(sinUno(cc), n, s))
 									ELSE
-										elMasVigilanteAux(sinUno(cc), n, c, s)
+										losMasVigilantes(sinUno(cc), n, s)
 									FI}
 								FI}	
                                     
